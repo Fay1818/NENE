@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>NENE</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1743147_2a5hlhi3en4.css">
+    <script src="../js/viewport.js"></script>
+    <style>
+        @font-face {
+            font-family: 'miniui' !important;
+            src: url('../css/font/iconfont.eot');
+            src: url('../css/font/iconfont.eot?#iefix') format('embedded-opentype'),
+            url('../css/font/iconfont.woff2') format('woff2'),
+            url('../css/font/iconfont.woff') format('woff'),
+            url('../css/font/iconfont.ttf') format('truetype'),
+            url('../css/font/iconfont.svg#iconfont') format('svg');
+            font-style: normal;
+        }
+
+        .
+
+    </style>
+</head>
+
+<body>
+    <div id="app" class="my">
+        <!--header-->
+        <mt-header title="Lily">
+            <router-link to="/" slot="left">
+                <mt-button>
+                    <span  class="iconfont">&#xe628;</span>
+                </mt-button>
+            </router-link>
+            <router-link to="/" slot="right">
+                <mt-button >
+                    <span  class="iconfont">&#xe61e;</span>
+                </mt-button>
+            </router-link>
+        </mt-header>
+
+        <div class="contanier">
+            <div class="info">
+                <div class="user">
+                    <img src="../img/1.jpg" alt="">
+                </div>
+                <div class="text">
+                    <ul>
+                        <li>
+                            <span>382</span>
+                            <span>Follow</span>
+                        </li>
+                        <li>
+                            <span>6.8k</span>
+                            <span>Followers</span>
+                        </li>
+                        <li>
+                            <span>10k</span>
+                            <span>Likes</span>
+                        </li>
+                    </ul>
+                    <div class="profile">Profile Info</div>
+                </div>
+                <p>
+                    <span  class="iconfont">&#xe694;</span>|
+                    <span > Toronto, Canada | Age xx | Level 21 |</span>|
+                </p>
+                <p>So grateful to be sharing my world with you.</p>
+
+            </div>
+            <!--mt-navbar-->
+            <mt-navbar v-model="selected">
+                <mt-tab-item id="1">Posts</mt-tab-item>
+                <mt-tab-item id="2">Collects</mt-tab-item>
+                <mt-tab-item id="3">Likes</mt-tab-item>
+            </mt-navbar>
+
+            <!-- tab-container -->
+            <mt-tab-container v-model="selected">
+                <mt-tab-container-item id="1">
+                    <div class="container">
+                        <ul  class="fellowBox">
+                            <li v-for="item in list">
+                                <a href="page/details.html">
+                                    <img v-lazy.container="item.img">
+                                    <p class="title">{{item.title}}</p>
+                                    <p>
+                                        <span><i class="iconfont">&#xe63d; </i>{{item.user}}</span>
+                                        <span><i class="iconfont">&#xe60b;</i>{{item.num}}k</span>
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </mt-tab-container-item>
+                <mt-tab-container-item id="2">
+                    <div class="container">
+                        <ul class="exploreBox">
+                            <li v-for="item in list">
+                                <a href="page/details.html">
+                                    <img v-lazy.container="item.img">
+                                    <p class="title">{{item.title}}</p>
+                                    <p>
+                                        <span><i class="iconfont">&#xe63d; </i>{{item.user}}</span>
+                                        <span><i class="iconfont">&#xe60b;</i>{{item.num}}k</span>
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </mt-tab-container-item>
+                <mt-tab-container-item id="3">
+                    <div class="container cellList">
+                        <div class="cell" v-for="(item,index) in cellList">
+                            <mt-cell :title="item.topic" :label="item.num+'k followers'" >
+                            </mt-cell>
+                            <div class="imgBox">
+                                <ul>
+                                    <li v-for="dot in item.imgList">
+                                        <img :src="dot.img" alt="">
+                                        <p>{{dot.text}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </mt-tab-container-item>
+            </mt-tab-container>
+        </div>
+
+        <!--tabbar-->
+        <mt-tabbar v-model="tabbar">
+            <mt-tab-item id="tab1">
+                <a href="../index.html">
+                <span class="iconfont">&#xe64d;</span>
+                HOME
+                </a>
+            </mt-tab-item>
+            <mt-tab-item id="tab2" @click.native="choiceImg">
+                <a  href="javascript:;">
+                    <span class="iconfont">&#xe606;</span>
+                    CAMARA
+                </a>
+            </mt-tab-item>
+            <mt-tab-item id="tab4">
+                <a href="javascript:;">
+                    <span class="iconfont">&#xe648;</span>
+                    Me
+                </a>
+            </mt-tab-item>
+        </mt-tabbar>
+        <input class="none" ref="inputFile" @change="getFile" type="file" id="file-input" multiple  name="fileContent">
+    </div>
+
+</body>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data:{
+          selected:'1',
+          tabbar:'tab4',
+          list:[
+              {
+                  img:'../img/1.jpg',
+                  title:'Popular star',
+                  user:'lqq',
+                  num:26,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/2.jpg',
+                  title:'Popular star',
+                  user:'lqq',
+                  num:102,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/3.jpg',
+                  title:'Popular star',
+                  user:'lqq',
+                  num:46,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/4.jpg',
+                  title:'Popular star',
+                  user:'lqq',
+                  num:88,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/5.jpg',
+                  title:'Popular star',
+                  user:'lqq',
+                  num:140,
+                  link:'page/details.html'
+              },
+              {
+                  img:'../img/6.jpg',
+                  title:'Popular star',
+                  user:'lqq',
+                  num:49,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/7.jpg',
+                  title:'Popular star',
+                  user:'lqq',
+                  num:210,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/8.jpg',
+                  title:'Popular star',
+                  user:'lqq',
+                  num:103,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/9.jpg',
+                  title:'Popular star',
+                  user:'lqq',
+                  num:93,
+                  link:'page/details.html'
+              },
+              {
+                  img:'../img/10.jpg',
+                  title:'Popular star',
+                  user:'lqq',
+                  num:73,
+                  link:'details.html'
+              }
+          ],
+          followerList:[
+              {
+                  img:'../img/10.jpg',
+                  name:'Seven',
+                  num:86,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/10.jpg',
+                  name:'Seven',
+                  num:86,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/10.jpg',
+                  name:'Seven',
+                  num:86,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/10.jpg',
+                  name:'Seven',
+                  num:86,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/10.jpg',
+                  name:'Seven',
+                  num:86,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/10.jpg',
+                  name:'Seven',
+                  num:86,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/10.jpg',
+                  name:'Seven',
+                  num:86,
+                  link:'details.html'
+              },
+              {
+                  img:'./img/10.jpg',
+                  name:'Seven',
+                  num:86,
+                  link:'details.html'
+              },
+              {
+                  img:'../img/10.jpg',
+                  name:'Seven',
+                  num:86,
+                  link:'details.html'
+              }
+          ],
+          cellList:[
+              {
+                  pic:'../img/1.jpg',
+                  topic:'#Eyelashes',
+                  num:33,
+                  imgList:[
+                      {
+                          img:'../img/4.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/5.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/6.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/7.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/8.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/9.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      }
+                  ]
+              },
+              {
+                  pic:'../img/2.jpg',
+                  topic:'#Lipstick',
+                  num:45,
+                  imgList:[
+                      {
+                          img:'../img/4.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/5.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/6.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/7.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/8.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/9.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      }
+                  ]
+              },
+              {
+                  pic:'../img/3.jpg',
+                  topic:'#Hairstyle',
+                  num:24,
+                  imgList:[
+                      {
+                          img:'../img/4.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/5.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/6.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/7.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/8.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/9.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      }
+                  ]
+              },
+              {
+                  pic:'../img/3.jpg',
+                  topic:'#Hairstyle',
+                  num:24,
+                  imgList:[
+                      {
+                          img:'../img/4.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/5.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/6.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/7.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/8.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/9.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      }
+                  ]
+              },
+              {
+                  pic:'../img/1.jpg',
+                  topic:'#Eyelashes',
+                  num:33,
+                  imgList:[
+                      {
+                          img:'../img/4.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/5.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/6.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/7.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/8.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      },
+                      {
+                          img:'../img/9.jpg',
+                          text:'Excepteur sint occaecat cupidatat'
+                      }
+                  ]
+              }
+          ]
+      },
+      methods: {
+          choiceImg(){
+              this.$refs.inputFile.dispatchEvent(new MouseEvent('click'))
+          },
+          getFile(){
+
+          }
+      }
+    })
+  </script>
+
+
+</html>

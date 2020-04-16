@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>NENE</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/viewport.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="app" class="home">
+        <!--header-->
+        <mt-header title="NENE">
+            <router-link to="page/nav.html" slot="left">
+                <mt-button>
+                    <span  class="iconfont" @click="goNav">&#xe6ae;</span>
+                </mt-button>
+            </router-link>
+            <router-link to="/" slot="right">
+            <mt-button >
+                <span  class="iconfont">&#xe61e;</span>
+            </mt-button>
+            </router-link>
+        </mt-header>
+        <mt-search
+                @keyup.enter.native="loadListData"
+                v-model="value"
+                cancel-text="Cancel"
+                placeholder="Search">
+        </mt-search>
+        <!--mt-navbar-->
+        <mt-navbar v-model="selected">
+            <mt-tab-item id="1">Fellow</mt-tab-item>
+            <mt-tab-item id="2">Explore</mt-tab-item>
+            <mt-tab-item id="3">Trend</mt-tab-item>
+        </mt-navbar>
+
+        <!-- tab-container -->
+        <mt-tab-container v-model="selected">
+            <mt-tab-container-item id="1">
+                <div class="container">
+                    <ul  class="fellowBox">
+                        <li v-for="item in list">
+                            <a href="page/details.html">
+                                <img v-lazy.container="item.img">
+                                <p class="title">{{item.title}}</p>
+                                <p>
+                                    <span><i class="iconfont">&#xe63d; </i>{{item.user}}</span>
+                                    <span><i class="iconfont">&#xe60b;</i>{{item.num}}k</span>
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </mt-tab-container-item>
+            <mt-tab-container-item id="2">
+                <div class="container">
+                    <ul class="exploreBox">
+                        <li v-for="item in list">
+                            <a href="page/details.html">
+                                <img v-lazy.container="item.img">
+                                <p class="title">{{item.title}}</p>
+                                <p>
+                                    <span><i class="iconfont">&#xe63d; </i>{{item.user}}</span>
+                                    <span><i class="iconfont">&#xe60b;</i>{{item.num}}k</span>
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </mt-tab-container-item>
+            <mt-tab-container-item id="3">
+                <div class="container">
+                    <h5 style="margin-yop:0;">Topic</h5>
+                    <ul class="trendBox">
+                        <li v-for="item in followerList">
+                            <a href="page/trend.html">
+                            <img :src="item.img" alt="">
+                            <p>#{{item.name}}</p>
+                            <p>{{item.num}}k followers</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <h5 style="margin-yop:0;">People</h5>
+                    <ul class="trendBox">
+                        <li v-for="item in followerList">
+                            <a href="page/trend.html">
+                            <img :src="item.img" alt="">
+                            <p>#{{item.name}}</p>
+                            <p>{{item.num}}k followers</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </mt-tab-container-item>
+        </mt-tab-container>
+
+        <!--tabbar-->
+        <mt-tabbar v-model="tabbar">
+            <mt-tab-item id="tab1">
+                <span class="iconfont">&#xe64d;</span>
+                HOME
+            </mt-tab-item>
+            <mt-tab-item id="tab2" @click.native="choiceImg">
+                <a  href="javascript:;">
+                <span class="iconfont">&#xe606;</span>
+                CAMARA
+                </a>
+            </mt-tab-item>
+            <mt-tab-item id="tab4">
+                <a  href="page/my.html">
+                <span class="iconfont">&#xe648;</span>
+                Me
+                </a>
+            </mt-tab-item>
+        </mt-tabbar>
+        <input class="none" ref="inputFile" @change="getFile" type="file" id="file-input" multiple  name="fileContent">
+    </div>
+
+</body>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+        data:{
+            tabbar:'tab1',
+            selected:'1',
+            value:'',
+            list:[
+                {
+                    img:'img/1.jpg',
+                    title:'Popular star',
+                    user:'lqq',
+                    num:26,
+                    link:'page/details.html'
+                },
+                {
+                    img:'img/2.jpg',
+                    title:'Popular star',
+                    user:'lqq',
+                    num:102,
+                    link:'page/details.html'
+                },
+                {
+                    img:'img/3.jpg',
+                    title:'Popular star',
+                    user:'lqq',
+                    num:46,
+                    link:'page/details.html'
+                },
+                {
+                    img:'img/4.jpg',
+                    title:'Popular star',
+                    user:'lqq',
+                    num:88,
+                    link:'page/details.html'
+                },
+                {
+                    img:'img/5.jpg',
+                    title:'Popular star',
+                    user:'lqq',
+                    num:140,
+                    link:'page/details.html'
+                },
+                {
+                    img:'img/6.jpg',
+                    title:'Popular star',
+                    user:'lqq',
+                    num:49,
+                    link:'page/details.html'
+                },
+                {
+                    img:'img/7.jpg',
+                    title:'Popular star',
+                    user:'lqq',
+                    num:210,
+                    link:'page/details.html'
+                },
+                {
+                    img:'img/8.jpg',
+                    title:'Popular star',
+                    user:'lqq',
+                    num:103,
+                    link:'page/details.html'
+                },
+                {
+                    img:'img/9.jpg',
+                    title:'Popular star',
+                    user:'lqq',
+                    num:93,
+                    link:'page/details.html'
+                },
+                {
+                    img:'img/10.jpg',
+                    title:'Popular star',
+                    user:'lqq',
+                    num:73,
+                    link:'page/details.html'
+                }
+            ],
+            followerList:[
+                {
+                    img:'img/10.jpg',
+                    name:'Seven',
+                    num:86,
+                    link:'page/trend.html'
+                },
+                {
+                    img:'img/10.jpg',
+                    name:'Seven',
+                    num:86,
+                    link:'page/trend.html'
+                },
+                {
+                    img:'img/10.jpg',
+                    name:'Seven',
+                    num:86,
+                    link:'page/trend.html'
+                },
+                {
+                    img:'img/10.jpg',
+                    name:'Seven',
+                    num:86,
+                    link:'page/trend.html'
+                },
+                {
+                    img:'img/10.jpg',
+                    name:'Seven',
+                    num:86,
+                    link:'page/trend.html'
+                },
+                {
+                    img:'img/10.jpg',
+                    name:'Seven',
+                    num:86,
+                    link:'page/trend.html'
+                },
+                {
+                    img:'img/10.jpg',
+                    name:'Seven',
+                    num:86,
+                    link:'page/trend.html'
+                },
+                {
+                    img:'img/10.jpg',
+                    name:'Seven',
+                    num:86,
+                    link:'page/trend.html'
+                },
+                {
+                    img:'img/10.jpg',
+                    name:'Seven',
+                    num:86,
+                    link:'page/trend.html'
+                }
+            ],
+            defaultResult: [
+                'Apple',
+                'Banana',
+                'Orange',
+                'Durian',
+                'Lemon',
+                'Peach',
+                'Cherry',
+                'Berry',
+                'Core',
+                'Fig',
+                'Haw',
+                'Melon',
+                'Plum',
+                'Pear',
+                'Peanut',
+                'Other'
+            ]
+        },
+        mounted(){
+
+        },
+        computed: {
+            filterResult() {
+                return this.defaultResult.filter(value => new RegExp(this.value, 'i').test(value));
+            }
+        },
+        methods: {
+          choiceImg(){
+              this.$refs.inputFile.dispatchEvent(new MouseEvent('click'))
+          },
+          getFile(){
+
+          },
+          goNav(){
+              window.location='page/nav.html'
+          },
+            loadListData(){
+              console.log(this.value);
+              var n = this.value;
+              for(var i = 0;i<this.list.length;i++){
+                  this.list[i].title = n;
+              }
+          }
+      }
+    })
+  </script>
+
+
+</html>

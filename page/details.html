@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>NENE</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1743147_2a5hlhi3en4.css">
+    <script src="../js/viewport.js"></script>
+    <style>
+        @font-face {
+            font-family: 'miniui' !important;
+            src: url('../css/font/iconfont.eot');
+            src: url('../css/font/iconfont.eot?#iefix') format('embedded-opentype'),
+            url('../css/font/iconfont.woff2') format('woff2'),
+            url('../css/font/iconfont.woff') format('woff'),
+            url('../css/font/iconfont.ttf') format('truetype'),
+            url('../css/font/iconfont.svg#iconfont') format('svg');
+            font-style: normal;
+        }
+
+        .
+
+    </style>
+</head>
+
+<body>
+    <div id="app" class="details">
+        <mt-header title="">
+            <router-link to=../index.html slot="left">
+                <mt-button @click = 'back' icon="back"></mt-button>
+                <mt-button @click="handleClose">
+                    <img class="headerImg" src="../img/10.jpg" alt="">
+                    <span style="line-height: 20px;">Amada</span>
+                </mt-button>
+            </router-link>
+            <mt-button slot="right">
+                <span class="follow">FOLLOW</span>
+            </mt-button>
+        </mt-header>
+
+        <div class="contanier">
+            <mt-swipe :auto="4000">
+                <mt-swipe-item v-for="(item,index) in swipeList">
+                    <img :src="item.pic" alt="">
+                </mt-swipe-item>
+            </mt-swipe>
+            <div class="text">
+                <h5>Popular Spanish brand TOTE</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                    dolore eu fugiat nulla pariatur.
+                    Lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in
+                    voluptate velit esse cillum dolore eu fugiat nulla
+                    pariatur. At enim ad minim veniam, quis nostrud</p>
+            </div>
+        </div>
+        <!--tabbar-->
+        <div class="discuss">
+            <ul>
+                <li>
+                    <span class="inputBox">
+                        <i class="iconfont" @click="sendDiscuss">&#xe60d;</i>
+                        <input type="text" v-model="discuss">
+                    </span>
+                </li>
+                <li>
+                    <span @click="clickLike" v-if="like" style="font-size: 0.4rem;" class="iconfont">&#xe60b;</span>
+                    <span @click="clickLike" v-else style="font-size: 0.4rem;" class="iconfont">&#xe641;</span>
+                    <span>{{likeNum}}</span>
+                </li>
+                <li>
+                    <span @click="clickCollect" v-if="collect" style="font-size: 0.4rem;" class="iconfont">&#xe646;</span>
+                    <span @click="clickCollect" v-else style="font-size: 0.4rem;" class="iconfont">&#xe607;</span>
+                    <span>{{collectNum}}</span>
+                </li>
+                <li>
+                    <span  style="font-size: 0.4rem;" class="iconfont">&#xe618</span>
+                    <span>{{discussNum}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data:{
+          like:true,
+          collect:true,
+          likeNum:3052,
+          collectNum:2077,
+          discuss:'',
+          discussNum:88,
+          swipeList:[
+              {
+                  pic:'../img/1.jpg'
+              },{
+                  pic:'../img/2.jpg'
+              },{
+                  pic:'../img/3.jpg'
+              }, {
+                  pic:'../img/4.jpg'
+              }
+          ],
+          tabbar:'tab1',
+      },
+      methods: {
+          handleClose(){
+              window.location.href = 'reminders.html';
+          },
+          sendDiscuss(){
+              if(!this.discuss){
+                  alert('Please input text!')
+              }else{
+                  this.discuss = '';
+                  this.discussNum = Number(this.discussNum+1);
+              }
+          },
+          clickLike(){
+              this.like = !this.like;
+              if(!this.like){
+                  this.likeNum = Number(this.likeNum+1);
+              }else{
+                  this.likeNum = Number(this.likeNum-1);
+              }
+          },
+          clickCollect(){
+              this.collect = !this.collect;
+              if(!this.collect){
+                  this.collectNum = Number(this.collectNum+1);
+              }else{
+                  this.collectNum = Number(this.collectNum-1);
+              }
+          },
+          back(){
+              window.location="../index.html"
+          }
+      }
+    })
+  </script>
+
+
+</html>
